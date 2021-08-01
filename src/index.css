@@ -8,4 +8,5 @@
 
 body {
   font-family: "IBM Plex Sans", sans-serif;
+  overflow-y: scroll !important;
 }

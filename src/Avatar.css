@@ -1,0 +1,16 @@
+.avatar-root {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  font-size: 1.25rem;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 1;
+  user-select: none;
+  border-radius: 50%;
+  justify-content: center;
+  color: #fff;
+  background-color: #4f46e5;
+}
