@@ -21,14 +21,7 @@ button {
   background-color: transparent;
   background-image: none;
 }
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
-  border-color: currentColor;
-}
+
 img {
   border-style: solid;
 }
@@ -53,12 +46,7 @@ img {
   max-width: 100%;
   height: auto;
 }
-*,
-::before,
-::after {
-  --tw-border-opacity: 1;
-  border-color: rgba(229, 231, 235, var(--tw-border-opacity));
-}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -225,11 +213,7 @@ img {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
-*,
-::before,
-::after {
-  --tw-shadow: 0 0 #0000;
-}
+
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -238,16 +222,7 @@ img {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-*,
-::before,
-::after {
-  --tw-ring-inset: var(--tw-empty);
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgba(59, 130, 246, 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-}
+
 .ring-1 {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -295,13 +270,13 @@ img {
     display: block;
   }
   .sm\:hidden {
-    display: none;
+    display: none !important;
   }
   .sm\:items-stretch {
     align-items: stretch;
   }
   .sm\:justify-start {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
   }
   .sm\:px-6 {
     padding-left: 1.5rem;
@@ -326,4 +301,17 @@ img {
   color: #fff;
   font-weight: 500;
   font-family: "IBM Plex Sans", sans-serif;
+}
+
+#menu {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+#menu > span {
+  cursor: pointer;
+  color: rgb(117 117 117);
+  transition: 0.3s;
+}
+#menu > span:hover {
+  color: rgba(17, 24, 39, 1);
 }
