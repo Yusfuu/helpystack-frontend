@@ -51,7 +51,7 @@ function Editor() {
 
   const HandlePublish = async () => {
 
-    if (description.trim() == '' || description.length > 255) {
+    if (description.trim() === '' || description.length > 255) {
       message.error('something went wrong akkwrd !');
     } else {
 
@@ -125,7 +125,7 @@ function Editor() {
               Cancel
             </Button>
             <Button
-              disabled={description.trim() == '' || description.length >= 255 || selectedItems.length < 1}
+              disabled={description.trim() === '' || description.length >= 255 || selectedItems.length < 1}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
