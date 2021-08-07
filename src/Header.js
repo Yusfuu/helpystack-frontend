@@ -27,7 +27,7 @@ function Header() {
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start banner-header">
             <div className="flex-shrink-0 flex items-center">
               <div className="logo">
-                <span>HelpyStack</span>
+                <Link to="/">HelpyStack</Link>
               </div>
             </div>
             <div className="hidden sm:block sm:ml-6">

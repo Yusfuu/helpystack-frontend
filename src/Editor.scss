@@ -57,29 +57,23 @@
   cursor: pointer;
 }
 
-.light {
-  background: #fff;
-}
-
-.dark {
-  background: #191919;
-}
-
 .controls {
-  position: fixed;
-  top: 100px;
-  left: 50%;
-  transform: translateX(-200%);
-  border: #ffffff33;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 4px 16px 0 rgb(0 0 0 / 60%);
   display: flex;
-  /* background: #fff; */
-  /* background: #191919; */
+  flex-direction: column;
+  flex: 0.2;
+  z-index: 22;
+  top: 16px;
+  left: 8px;
+  margin-top: 20px;
+  position: sticky;
+  height: 100%;
+  border-radius: 5px;
+  padding: 20px 24px;
+  background: var(--bg-controle);
   transition: all 0.5s ease;
-  z-index: 30;
-  gap: 30px;
+  gap: 12px;
+  align-items: baseline;
+  border: 1px rgb(229, 231, 235) solid;
 }
 
 .export {
@@ -94,6 +88,8 @@
   gap: 10px;
   font-family: monospace;
   margin-top: auto;
+  align-self: stretch;
+  justify-content: center;
 }
 .export > svg {
   margin-left: 10px;
@@ -121,7 +117,7 @@
 }
 
 .text-editor > .textareaTyping {
-  width: 40%;
+  width: 100%;
 }
 
 .ant-input-affix-wrapper-textarea-with-clear-btn .ant-input-clear-icon {
@@ -236,8 +232,6 @@ textarea {
 /*? editor */
 .text-editor {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
   padding: 20px;
@@ -252,7 +246,7 @@ textarea {
 }
 
 .text-editor > .highlite {
-  width: 60%;
+  width: 100%;
 }
 
 .highlite > pre {
@@ -302,3 +296,56 @@ textarea {
   margin-right: 8px;
 }
 /*? editor */
+
+.ant-select-selector {
+  border-radius: 5px !important;
+  border-color: var(--select-border) !important;
+  background: transparent !important;
+  color: #999 !important;
+}
+
+.ant-select-arrow {
+  .anticon {
+    svg {
+      fill: var(--select-border) !important;
+    }
+  }
+}
+
+// .site-form-in-drawer-wrapper {
+//   position: absolute;
+//   right: 0px;
+//   bottom: 0px;
+//   width: 100%;
+//   padding: 10px 16px;
+//   text-align: right;
+//   background: #fff;
+//   border-top: 1px solid #e9e9e9;
+// }
+// [data-theme="dark"] .site-form-in-drawer-wrapper {
+//   border-top: 1px solid #303030;
+//   background: #1f1f1f;
+// }
+#description {
+  border-radius: 5px !important;
+}
+.anticon-close {
+  padding-bottom: 6px !important;
+}
+.ant-select-multiple {
+  .ant-select-selector {
+    border-color: #d9d9d9 !important;
+  }
+}
+
+.text-editor {
+  .highlite {
+    border-radius: 0 !important;
+    pre {
+      max-height: none !important;
+      scroll-behavior: smooth;
+      overflow: auto;
+      user-select: auto;
+    }
+  }
+}

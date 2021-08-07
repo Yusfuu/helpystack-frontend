@@ -1,14 +1,15 @@
 import React, { createContext, useContext, useState } from 'react';
 import { ReactComponent as ExportIcon } from "./icons/export.svg";
-import { ReactComponent as FlexWidget } from "./icons/flexe.svg";
+import { ReactComponent as PlusIcon } from "./icons/publish.svg";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark, coldarkCold, atomDark, materialDark, materialLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import * as htmlToImage from 'html-to-image';
 import download from "downloadjs";
-import './Editor.css';
+import './Editor.scss';
 import 'antd/dist/antd.css';
-import { Select, Input, Popover } from 'antd';
-import { languages, jsxText, backgroundColorCircle } from './data';
+import { Select, Input, Popover, message } from 'antd';
+import { languages, jsxText, backgroundColorCircle, tagsOptions } from './data';
+import { Drawer, Form, Button, Col, Row } from 'antd';
 
 
 const { Option } = Select;
@@ -38,19 +39,56 @@ function Editor() {
   const [colorTheme, setcolorTheme] = useState(atomDark);
   const [lang, setLang] = useState('jsx');
   const [name, setName] = useState('Untitled-1');
-
+  const [visible, setvisible] = useState(false)
   const [showControle, setShowControle] = useState(false);
+  const [description, setdescription] = useState('');
+  const [selectedItems, setSelectedItems] = useState([]);
+
 
   const typing = (e) => {
-    setCode(e.target.value.trim());
+    setCode(e.target.value);
+  }
+
+  const HandlePublish = async () => {
+
+    if (description.trim() == '' || description.length > 255) {
+      message.error('something went wrong akkwrd !');
+    } else {
+
+      message.loading({ content: 'Loading...', key: 'updatable' });
+      const url = `${process.env.REACT_APP_API_URL}/p/publish`;
+
+      const formdata = new FormData();
+      formdata.append('name', name);
+      formdata.append('code', code);
+      formdata.append('background', background ? backgroundcolor : '#fff');
+      formdata.append('color', color);
+      formdata.append('lang', lang);
+      formdata.append('description', description);
+      formdata.append('tags', selectedItems.join(','));
+
+      const config = {
+        method: 'POST',
+        body: formdata
+      };
+
+      const response = await fetch(url, config);
+      const result = await response.json();
+      message.success({ content: 'Your Snippet is published !', key: 'updatable', duration: 2 });
+      setdescription('');
+      setvisible(false);
+    }
+
   }
 
   return (
-    <div>
-      <EditorContext.Provider value={{ showControle, setShowControle, backgroundcolor, setBackgroundColor, name, setName, colorTheme, setcolorTheme, color, setColor, lang, setLang, darkmode, setDarkmode, background, setBackground, code }}>
-        <div className="text-editor">
-          <TextArea allowClear showCount value={code} maxLength={1000} onChange={typing} autoFocus className="textareaTyping" rows={18} />
-          <Controls />
+    <EditorContext.Provider value={{ setSelectedItems, selectedItems, setvisible, showControle, setShowControle, backgroundcolor, setBackgroundColor, name, setName, colorTheme, setcolorTheme, color, setColor, lang, setLang, darkmode, setDarkmode, background, setBackground, code }}>
+      <div className={darkmode ? 'dark' : 'light'} style={{
+        display: 'flex',
+        flexDirection: 'row-reverse'
+      }}>
+        <div className="text-editor" style={{ flex: '.8' }}>
+          <TextArea showCount allowClear value={code} maxLength={1000} onChange={typing} autoFocus className="textareaTyping" rows={18} style={{ borderRadius: '5px' }} />
           <div className="highlite" style={{ background: background ? backgroundcolor : '#fff' }}>
             <div className="app-header-frame">
               <div className="frame-controls">
@@ -59,7 +97,7 @@ function Editor() {
                 <div></div>
               </div>
               <div className="title">
-                <input onChange={(e) => setName(e.target.value.trim())} type="text" value={name} />
+                <input onChange={(e) => setName(e.target.value)} type="text" value={name} />
               </div>
             </div>
             <SyntaxHighlighter id="syntaxHighlighterCode" language={lang.toLowerCase()} style={colorTheme} wrapLines={true} wrapLongLines={true} showLineNumbers={true}>
@@ -67,28 +105,98 @@ function Editor() {
             </SyntaxHighlighter>
           </div>
         </div>
-        {/* <Controls /> */}
-        <EditButton />
-      </EditorContext.Provider>
-    </div >
+        <Controls />
+      </div>
+      <Drawer
+        title="Create a new Tip"
+        width={720}
+        onClose={() => setvisible(false)}
+        visible={visible}
+        bodyStyle={{ paddingBottom: 80 }}
+        footer={
+          <div
+            style={{
+              textAlign: 'right',
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}
+          >
+            <Button onClick={() => setvisible(false)} style={{ marginRight: 8 }}>
+              Cancel
+            </Button>
+            <Button
+              disabled={description.trim() == '' || description.length >= 255 || selectedItems.length < 1}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px'
+              }} onClick={HandlePublish} type="primary" htmlType="submit">
+              <PlusIcon />
+              Publish
+            </Button>
+          </div>
+        }
+      >
+        <Form layout="vertical" hideRequiredMark>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.Item
+                name="description"
+                label="Description"
+                rules={[
+                  {
+                    required: true,
+                    message: 'please enter description',
+                  },
+                ]}
+              >
+                <Input.TextArea value={description} onChange={(e) => setdescription(e.target.value)} showCount allowClear maxLength={255} rows={4} placeholder="please enter description" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name="tags"
+                label="Tags"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <TagsOption />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Drawer>
+    </EditorContext.Provider>
   )
 }
 
 
-function EditButton() {
-  const { showControle, setShowControle } = useContext(EditorContext);
 
+function TagsOption() {
+  const { setSelectedItems, selectedItems } = useContext(EditorContext);
+  const handleChange = selectedItems => {
+    setSelectedItems(selectedItems);
+  }
+  const filteredOptions = tagsOptions.filter(o => !selectedItems.includes(o));
   return (
-    <div className="fixed-widgets" onClick={() => setShowControle(!showControle)}>
-      <span className="avatar">
-        <FlexWidget />
-      </span>
-    </div>
+    <Select
+      allowClear
+      mode="multiple"
+      placeholder="Tags ..."
+      value={selectedItems}
+      onChange={handleChange}
+      style={{ width: '100%' }}
+    >
+      {filteredOptions.map(item => <Select.Option disabled={selectedItems.length > 2} key={item} value={item}>{item}</Select.Option>)}
+    </Select>
   );
 }
-
 function Controls() {
-  const { showControle, backgroundcolor, setBackgroundColor, setcolorTheme, color, setColor, lang, setLang, darkmode, setDarkmode, background, setBackground } = useContext(EditorContext);
+  const { backgroundcolor, setBackgroundColor, setcolorTheme, color, setColor, lang, setLang, darkmode, setDarkmode, background, setBackground } = useContext(EditorContext);
 
   const onChange = (value) => {
     setLang(value);
@@ -103,10 +211,10 @@ function Controls() {
     setBackgroundColor(value);
   }
   return (
-    <div className={`controls ${darkmode ? 'dark' : 'light'}`} style={{ transform: showControle ? 'translateX(-50%)' : 'translateX(-200%)' }}>
+    <div className='controls'>
       <div className="form-setting">
         <span>Colors</span>
-        <Select dropdownStyle={{ color: 'red' }} defaultValue={color} style={{ width: 200, background: 'black' }} onChange={handleChange}>
+        <Select dropdownStyle={{ color: 'red' }} defaultValue={color} style={{ width: 200 }} onChange={handleChange}>
           {Object.keys(colors).map((e, idx) => <Option key={idx} value={e}>{e}</Option>)}
         </Select>
       </div>
@@ -142,6 +250,7 @@ function Controls() {
         </Select>
       </div>
       <Export />
+      <Publish />
     </div >
   )
 }
@@ -185,21 +294,11 @@ function Content() {
 
 
 function Export() {
-  const { name, code, darkmode, background, backgroundcolor, color, lang } = useContext(EditorContext);
 
-
-  const handleExport = () => {
-    const saveSnippet = JSON.stringify({
-      name, code, darkmode, background, backgroundcolor, color, lang
-    }).length;
-
-    console.log(saveSnippet);
-
-  }
 
   return (
     <Popover content={Content}>
-      <button className="export" onClick={handleExport}>
+      <button className="export">
         <span>Export</span>
         <ExportIcon />
       </button>
@@ -207,6 +306,17 @@ function Export() {
   );
 }
 
+function Publish() {
+  const { setvisible } = useContext(EditorContext);
 
+  return (
+    <>
+      <button onClick={() => setvisible(true)} className="export" style={{ backgroundColor: '#60d360', }}>
+        <span style={{ color: '#fff' }}>Publish</span>
+        <PlusIcon style={{ fill: '#fff' }} />
+      </button>
+    </>
+  );
+}
 
 export default Editor;

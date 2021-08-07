@@ -9,4 +9,27 @@
 body {
   font-family: "IBM Plex Sans", sans-serif;
   overflow-y: scroll !important;
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+:root {
+  --bg-color-white: #fff;
+  --bg-color-dark-0: #191919;
+  --white: #fff;
+  --grey-0: #999;
+  --border-color-0: #e5e5e5;
+  --border-color-1: #303030;
+}
+
+.light {
+  --bg: var(--bg-color-white);
+  --bg-controle: var(--bg-color-white);
+  --text-1: var(--white);
+  --select-border: var(--border-color-0);
+}
+
+.dark {
+  --bg-controle: var(--bg-color-dark-0);
+  --text-1: var(--white);
+  --select-border: var(--border-color-1);
 }

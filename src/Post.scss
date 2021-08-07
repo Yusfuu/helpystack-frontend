@@ -1,0 +1,38 @@
+.highlite > pre::-webkit-scrollbar {
+  display: none;
+}
+
+.highlite {
+  border-radius: 8px;
+  pre {
+    max-height: 300px;
+    border-radius: 8px;
+    scroll-behavior: smooth;
+    overflow: scroll;
+    user-select: none;
+  }
+}
+
+.tags__container {
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 8px;
+  .tags__lang {
+    background-color: rgb(209, 250, 229);
+    padding: 0.1rem 0.8rem;
+    border-radius: 99px;
+    font-weight: 600;
+    color: rgb(6, 95, 70);
+    display: inline-flex;
+  }
+}
+
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
+}
+.ant-card-body {
+  display: flex;
+}

@@ -7,14 +7,17 @@ import Login from './login/Login';
 import Header from './Header';
 import Editor from './Editor';
 import Feed from './Feed';
+import Setting from './Setting';
 
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import Setting from './Setting';
+import useLocalStorage from './hooks/useLocalStorage';
+import useFetch from './hooks/useFetch';
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const progress = useSelector(selectLoading);
+  const user = {};
   // useEffect(() => {
   //   dispatch(setProgress(1000));
   // })
@@ -26,11 +29,11 @@ function App() {
         <div className="app__body">
           <BrowserRouter>
             <Header />
-            <Feed />
+            {/* <Feed /> */}
             {/* <Setting /> */}
             {/* <Editor /> */}
 
-            {/* <Route path="/" exact>
+            <Route path="/" exact>
               <Feed />
             </Route>
             <Route path="/editor" exact>
@@ -38,7 +41,7 @@ function App() {
             </Route>
             <Route path="/settings" exact>
               <Setting />
-            </Route> */}
+            </Route>
           </BrowserRouter>
         </div>
       }
