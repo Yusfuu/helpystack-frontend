@@ -18,6 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: baseline;
+  padding-top: 12px;
   gap: 8px;
   .tags__lang {
     background-color: rgb(209, 250, 229);
@@ -35,4 +36,9 @@
 }
 .ant-card-body {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ant-card-meta-description {
+  color: unset;
 }

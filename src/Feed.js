@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './Feed.scss';
 import Post from './Post';
-import { Card, Skeleton } from 'antd';
+import { Card, message, Skeleton } from 'antd';
 import CommentPost from './components/CommentPost';
 import useIO from './hooks/useIO';
+import { useDispatch } from 'react-redux';
+import { setCommentVisible } from './features/feed/feedSlice';
 
 
 function Feed() {
@@ -11,20 +13,27 @@ function Feed() {
   const [ref, onScreen] = useIO();
   const [posts, setPosts] = useState([]);
   const [skeleton, setSkeleton] = useState(false);
+  const dispatch = useDispatch();
+  dispatch(setCommentVisible(false));
+
   useEffect(() => {
     async function _fetch() {
       if (onScreen) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/p/page/${page}`);
-        const data = await response.json();
-        if (data.length === 0) {
-          ref(null);
-          setSkeleton(true);
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/p/page/${page}`);
+          const data = await response.json();
+          if (data.length === 0) {
+            ref(null);
+            setSkeleton(true);
+          }
+          setPosts(c => [...c, ...data]);
+          setPage(prev => prev + 1);
+        } catch (error) {
+          message.error({ content: 'something went wrong akkwrd !', duration: 0 });
         }
-        setPosts(c => [...c, ...data]);
-        setPage(prev => prev + 1);
       }
     }
-    _fetch();
+    _fetch()
   }, [onScreen]);
 
   return (

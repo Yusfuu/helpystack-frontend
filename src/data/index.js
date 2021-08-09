@@ -24,24 +24,27 @@ export const colors = {
 };
 
 
-export const jsxText = `class HelloMessage extends React.Component {
-  render() {
-    return (
-      <div>
-        Hello {this.props.name}
-      </div>
-    );
-  }
-}
-
-ReactDOM.render(
-  <HelloMessage name="Taylor" />,
-  document.getElementById('hello-example')
-);`;
+export const jsxText = `const useClickInside = (ref, callback) => {
+  const handleClick = e => {
+    if (ref.current && ref.current.contains(e.target)) {
+      callback();
+    }
+  };
+  React.useEffect(() => {
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  });
+};`;
 
 
 
 export const tagsOptions = [
-  'CSS', 'Animation', 'Visual', 'Interactivity', 'Layout', 'React', 'Hooks', 'Components',
-  'All', 'Algorithm', 'Array', 'Browser', 'Date', 'Function', 'Math', 'Node', 'Object', 'String', 'Type','API','Architecture','Artisan','Authentication','Authorization','Blade','Breeze','Cache','Database','Forms','Input','JavaScript','Jetstream','Laravel','Mail','Middleware','Notifications','Packages','React','Requests','Routing','Sail','Sanctum','Security','Session','Validation','Vue.js'
+  'CSS', 'Animation', 'Visual', 'Interactivity', 'Layout', 'Hooks', 'Components',
+  'Algorithm', 'Array', 'Browser', 'Date', 'Function', 'Math', 'Node', 'Object', 'String',
+  'Type', 'API', 'Architecture', 'Artisan', 'Authentication', 'Authorization', 'Blade', 'Breeze', 'Cache',
+  'Database', 'Forms', 'Input', 'JavaScript', 'Jetstream', 'Laravel', 'Mail', 'Middleware', 'Notifications'
+  , 'Packages', 'React', 'Requests', 'Routing', 'Sail', 'Sanctum', 'Security', 'Session', 'Validation',
+  'Vue.js'
 ];

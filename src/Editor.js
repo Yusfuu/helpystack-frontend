@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 import { ReactComponent as ExportIcon } from "./icons/export.svg";
 import { ReactComponent as PlusIcon } from "./icons/publish.svg";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -16,9 +16,6 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 const EditorContext = createContext();
-
-
-
 
 const colors = {
   'atom-dark': atomDark,
@@ -43,7 +40,6 @@ function Editor() {
   const [showControle, setShowControle] = useState(false);
   const [description, setdescription] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
-
 
   const typing = (e) => {
     setCode(e.target.value);
@@ -75,8 +71,8 @@ function Editor() {
       const response = await fetch(url, config);
       const result = await response.json();
       message.success({ content: 'Your Snippet is published !', key: 'updatable', duration: 2 });
-      setdescription('');
       setvisible(false);
+      setdescription('');
     }
 
   }
@@ -150,8 +146,10 @@ function Editor() {
                     message: 'please enter description',
                   },
                 ]}
+                initialValue={description}
+
               >
-                <Input.TextArea value={description} onChange={(e) => setdescription(e.target.value)} showCount allowClear maxLength={255} rows={4} placeholder="please enter description" />
+                <Input.TextArea onChange={(e) => setdescription(e.target.value)} showCount allowClear maxLength={255} rows={4} placeholder="please enter description" />
               </Form.Item>
             </Col>
             <Col span={24}>
@@ -294,7 +292,6 @@ function Content() {
 
 
 function Export() {
-
 
   return (
     <Popover content={Content}>
