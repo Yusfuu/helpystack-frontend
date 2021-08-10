@@ -5,6 +5,11 @@
   align-items: center;
   padding: 64px;
   .link__post__heading {
+    display: flex;
+    align-items: center;
+    svg {
+      cursor: pointer;
+    }
     .ant-card {
       .ant-card-body {
         padding: 24px 0;

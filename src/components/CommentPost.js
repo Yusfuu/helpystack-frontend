@@ -3,6 +3,9 @@ import { Button, Drawer, Comment, Input, Avatar, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFeed, setCommentVisible } from '../features/feed/feedSlice';
 import { selectUser } from '../features/user/userSlice';
+import moment from 'moment';
+import useLocalStorage from '../hooks/useLocalStorage';
+import Isme from './Isme';
 const { TextArea } = Input;
 
 
@@ -17,6 +20,7 @@ function CommentPost() {
   const [isloadMore, setisloadMore] = useState(false);
   const [isthereComment, setIsthereComment] = useState(false);
   const [commentCount, setcommentCount] = useState(0);
+  const [__token__] = useLocalStorage('__token__');
 
   useEffect(() => {
     async function _fetch() {
@@ -30,7 +34,7 @@ function CommentPost() {
       } else {
         setisloadMore(false);
       }
-      setcomments(result.map(c => +c.id === user.id ? { ...c, me: true } : c))
+      setcomments(result.map(c => +c.id === +user.id ? { ...c, me: true } : c))
       setPage(1);
     }
     _fetch();
@@ -51,6 +55,7 @@ function CommentPost() {
       const formdata = new FormData();
       formdata.append("post_id", feed.postID);
       formdata.append("body", response.trim());
+      formdata.append('Authorization', __token__);
 
       const config = {
         method: 'POST',
@@ -60,8 +65,6 @@ function CommentPost() {
 
       const _response = await fetch(`${process.env.REACT_APP_API_URL}/p/comment`, config);
       const result = await _response.json();
-      const created_at = (new Date()).toJSON().slice(0, -5).replace('T', ' ');
-      result.created_at = created_at;
       result.fullName = user.fullName;
       result.me = true;
       setcomments([result, ...comments]);
@@ -117,19 +120,12 @@ function CommentPost() {
           comments.map((comment, idx) => (
             <Comment
               key={idx}
-              author={<a>{comment?.fullName} {comment?.me && <span style={{
-                backgroundColor: '#a8a8a8',
-                color: '#fff',
-                borderRadius: '2px',
-                padding: '0px 6px',
-                marginLeft: '6px',
-                fontSize: '11px',
-              }}>YOU</span>}</a>}
+              author={<a>{comment?.fullName} {comment?.me && <Isme />}</a>}
               avatar={
                 <Avatar src={''}>{comment?.fullName[0]}</Avatar>
               }
               content={comment?.body}
-              datetime={comment?.created_at}
+              datetime={moment(comment?.created_at).fromNow()}
             />
           ))
         }

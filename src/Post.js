@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Post.scss';
-import { Card, Avatar, message } from 'antd';
+import { Card, Avatar, message, Dropdown } from 'antd';
 import { colors } from './data';
 import { ReactComponent as CopyIcon } from "./icons/copy.svg";
 import { ReactComponent as ClapIcon } from "./icons/clap.svg";
@@ -11,6 +11,9 @@ import { setCommentVisible, setPostID } from './features/feed/feedSlice';
 import { selectUser } from './features/user/userSlice';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
+import ShareButton from './components/ShareButton';
+import useLocalStorage from './hooks/useLocalStorage';
+import Isme from './components/Isme';
 
 const { Meta } = Card;
 
@@ -19,10 +22,11 @@ function Post({ style }) {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { post_id, uid, name, code, color, lang, background, description, fullName, tags, created_at, likeCount, url } = style;
+  const { post_id, uid, name, code, color, lang, background, description, fullName, tags, created_at, likeCount, url, commentCount } = style;
   const [like, setlike] = useState(likeCount)
   const [countClap, setcountClap] = useState(0);
   const user = useSelector(selectUser);
+  const [__token__] = useLocalStorage('__token__');
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -31,7 +35,7 @@ function Post({ style }) {
 
   const handleClap = async (post_id) => {
 
-    if (+uid === user.id) {
+    if (+uid === +user.id) {
       return message.warn('You can not applaud your own publish');
     }
 
@@ -41,6 +45,7 @@ function Post({ style }) {
       message.loading({ content: 'Loading...', key: 'updatable' });
       const formdata = new FormData();
       formdata.append("post_id", post_id);
+      formdata.append('Authorization', __token__);
 
       const config = {
         method: 'POST',
@@ -88,15 +93,20 @@ function Post({ style }) {
             <ClapIcon key="clap" />
             <span>{like}</span>
           </div>,
-          <div onClick={() => handleComment(+post_id)}><CommentIcon key="comment" style={{ margin: 'auto' }} /></div>,
+          <div onClick={() => handleComment(+post_id)} style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
+            <CommentIcon key="comment" />
+            <span>{commentCount}</span>
+          </div>,
           <div onClick={handleCopy}><CopyIcon key="copy" style={{ margin: 'auto' }} /></div>,
+          <div><ShareButton url={url} description={description} tags={tags} /></div>,
+
         ]}
       >
         <Meta
           avatar={<Avatar src={''} style={{ background: background == '#fff' ? '#ccc' : background }}>{fullName[0]}</Avatar>}
           title={
             <>
-              <span>{fullName}</span>
+              <span>{fullName}  {+uid === +user.id && <Isme />}</span>
               <span className="link__post__created_at" >{moment(created_at).fromNow()}</span>
             </>
           }

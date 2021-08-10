@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
+import ReactLogo from "../images/logo512.png";
 
 
 
@@ -19,7 +20,7 @@ function LoginForm() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <a href="/">
-            <img className="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+            <img className="mx-auto h-12 w-auto" src={ReactLogo}
               alt="Logo" />
           </a>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

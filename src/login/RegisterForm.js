@@ -4,17 +4,47 @@ import { useDispatch } from 'react-redux';
 import { login } from '../features/user/userSlice';
 import useForm from '../hooks/useForm';
 import { useHistory } from "react-router-dom";
-
+import ReactLogo from "../images/logo512.png";
+import { message } from 'antd';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function RegisterForm() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { handleField, fields } = useForm();
-
-  const submitHandle = e => {
+  const [state, setLocalStorage] = useLocalStorage('__token__');
+  const submitHandle = async e => {
     e.preventDefault();
-    dispatch(login(fields));
-    history.push("/");
+    const { email, password, fullName } = fields;
+    if (!fullName || fullName.trim().length === 0) {
+      return message.error('the email address is invalid');
+    }
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      return message.error('the email address is invalid');
+    }
+    if (!password || password.length === 0) {
+      return message.error('Password Required');
+    }
+
+    const formdata = new FormData();
+    formdata.append("fullName", fullName);
+    formdata.append("email", email);
+    formdata.append("password", password);
+
+    const requestOptions = {
+      method: 'POST',
+      body: formdata,
+    };
+
+    const response = await fetch("http://localhost:8000/api/accounts/signup", requestOptions);
+    const { __token__, id } = await response.json();
+    if (__token__) {
+      setLocalStorage(__token__);
+      dispatch(login({ email, fullName, id, __token__ }));
+      history.push("/");
+    } else {
+      message.error('something went wrong akkwrd !');
+    }
   }
 
   return (
@@ -22,7 +52,7 @@ function RegisterForm() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <a href="/">
-            <img className="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+            <img className="mx-auto h-12 w-auto" src={ReactLogo}
               alt="Logo" />
           </a>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

@@ -10,6 +10,7 @@ import 'antd/dist/antd.css';
 import { Select, Input, Popover, message } from 'antd';
 import { languages, jsxText, backgroundColorCircle, tagsOptions } from './data';
 import { Drawer, Form, Button, Col, Row } from 'antd';
+import useLocalStorage from './hooks/useLocalStorage';
 
 
 const { Option } = Select;
@@ -40,6 +41,7 @@ function Editor() {
   const [showControle, setShowControle] = useState(false);
   const [description, setdescription] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
+  const [__token__] = useLocalStorage('__token__');
 
   const typing = (e) => {
     setCode(e.target.value);
@@ -62,6 +64,7 @@ function Editor() {
       formdata.append('lang', lang);
       formdata.append('description', description);
       formdata.append('tags', selectedItems.join(','));
+      formdata.append('Authorization', __token__);
 
       const config = {
         method: 'POST',
