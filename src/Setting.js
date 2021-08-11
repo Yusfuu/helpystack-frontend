@@ -80,6 +80,10 @@ function Setting() {
 
       const response = await fetch("http://localhost:8000/api/u/delete", requestOptions);
       const result = await response.json();
+      console.log(result);
+      if (result === null) {
+        message.error('something went wrong akkwrd !');
+      }
     }
     _fetch();
     dispatch(logout());
@@ -233,7 +237,7 @@ function Setting() {
                     </div>
                   </div>
                   <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button onClick={handleUpdate} disabled={bio.length == 0 || user.bio === bio} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button onClick={handleUpdate} disabled={bio.length === 0 || user.bio === bio} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Save
                     </button>
                   </div>
@@ -273,7 +277,7 @@ function Setting() {
                     </div>
                   </div>
                   <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button onClick={handleUpdate} disabled={twitter.length == 0 || user.twitter === twitter} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button onClick={handleUpdate} disabled={twitter.length === 0 || user.twitter === twitter} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Save
                     </button>
                   </div>

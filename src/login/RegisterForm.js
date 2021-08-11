@@ -12,7 +12,7 @@ function RegisterForm() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { handleField, fields } = useForm();
-  const [state, setLocalStorage] = useLocalStorage('__token__');
+  const [, setLocalStorage] = useLocalStorage('__token__');
   const [isdisabled, setDisabled] = useState(false);
 
   const submitHandle = async e => {

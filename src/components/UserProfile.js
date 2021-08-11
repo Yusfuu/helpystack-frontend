@@ -12,7 +12,7 @@ function UserProfile() {
 
   const profileUser = useSelector(selectProfileUser);
   const dispatch = useDispatch();
-  const [__token__, setLocalStorage] = useLocalStorage('__token__');
+  const [__token__] = useLocalStorage('__token__');
   const [user, setuser] = useState(null);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ function UserProfile() {
       setuser(result);
     }
     _fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileUser.user_id]);
 
   return (
@@ -49,7 +50,7 @@ function UserProfile() {
           style={{ width: 500, marginTop: 16 }}
           actions={[
             <>
-              {user?.twitter && <a href={user?.twitter} target="_blank">
+              {user?.twitter && <a href={user?.twitter} target="_blank" rel="noreferrer">
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <TwitterIcon key="twitter" />,
                 </div>

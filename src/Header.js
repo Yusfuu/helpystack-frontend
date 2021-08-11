@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Header.css';
 import Avatar from './Avatar';
 import { Link, useHistory } from 'react-router-dom';
@@ -62,24 +62,9 @@ function Header() {
                 <button type="button"
                   className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                   id="user-menu-button" >
-                  {/* <Avatar setOpen={setOpen} open={open} /> */}
                 </button>
               </div>
 
-              {/* {open && (<div id="menu" className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Settings</Link>
-                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Profile</span>
-                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Editor</span>
-                <span onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Sign out</span>
-              </div>)} */}
-
-
-              {/* {(<div id="menu" className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item"></Link>
-                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Profile</span>
-                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Editor</span>
-                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item"></span>
-              </div>)} */}
 
               <Dropdown arrow overlay={
                 <Menu>
@@ -107,9 +92,9 @@ function Header() {
                   <Menu.Item key="4" onClick={handleLogout}>Sign out</Menu.Item>
                 </Menu>
               } trigger={['click']}>
-                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                <span className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                   <Avatar />
-                </a>
+                </span>
               </Dropdown>
 
             </div>

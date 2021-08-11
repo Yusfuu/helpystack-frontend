@@ -18,7 +18,7 @@ import Meta from 'antd/lib/card/Meta';
 import CommentPost from './components/CommentPost';
 import { setCommentVisible, setPostID } from './features/feed/feedSlice';
 import ShareButton from './components/ShareButton';
-import _404 from './_404';
+import NotFound from './NotFound';
 import Isme from './components/Isme';
 import useLocalStorage from './hooks/useLocalStorage';
 
@@ -37,6 +37,7 @@ function LinkPost() {
 
   useEffect(() => {
     dispatch(setPostID(post?.post_id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post])
 
   useEffect(() => {
@@ -51,6 +52,7 @@ function LinkPost() {
       setloading(false);
     }
     _fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleCopy = () => {
@@ -60,7 +62,7 @@ function LinkPost() {
 
   const handleClap = async () => {
 
-    if (+post.uid === user.id) {
+    if (+post.uid === +user.id) {
       return message.warn('You can not applaud your own publish');
     }
 
@@ -81,9 +83,15 @@ function LinkPost() {
       const url = `${process.env.REACT_APP_API_URL}/p/like`;
       const resposne = await fetch(url, config);
       const result = await resposne.json();
-      message.success({ content: 'awesome 👏', key: 'updatable', duration: 2 });
-      setlike(+(like) + 1);
-      setcountClap(countClap + 1)
+
+      if (result !== null) {
+        message.success({ content: 'awesome 👏', key: 'updatable', duration: 2 });
+        setlike(+(like) + 1);
+        setcountClap(countClap + 1)
+      } else {
+        message.error('something went wrong akkwrd !');
+      }
+
     }
   }
 
@@ -96,8 +104,12 @@ function LinkPost() {
     };
     const response = await fetch("http://localhost:8000/api/p/delete", requestOptions)
     const result = await response.json();
-    message.success('Your Tip has been deleted');
-    history.push('/');
+    if (result !== null) {
+      message.success('Your Tip has been deleted');
+      history.push('/');
+    } else {
+      message.error('something went wrong akkwrd !');
+    }
   }
   const menu = (
     <Menu>
@@ -125,7 +137,7 @@ function LinkPost() {
           <Skeleton loading={true} avatar active />
         </Card>
       }
-      {post === false && <_404 />}
+      {post === false && <NotFound />}
 
       {post && (
         <div className="link__post__wrapper">
@@ -147,7 +159,7 @@ function LinkPost() {
             </Dropdown>
           </div>
           <div className="link__post">
-            <div style={{ margin: '24px' }} className="link__post__highlite" style={{ background: post?.background, border: post?.background === '#fff' && '1px solid #f0f0f0' }}>
+            <div className="link__post__highlite" style={{ background: post?.background, border: post?.background === '#fff' && '1px solid #f0f0f0', margin: '24px' }}>
               <div className="app-header-frame">
                 <div className="frame-controls">
                   <div></div>

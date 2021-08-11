@@ -35,7 +35,8 @@ function Feed({ urlToFetch }) {
         }
       }
     }
-    _fetch()
+    _fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onScreen]);
 
   return (

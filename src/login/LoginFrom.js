@@ -13,7 +13,7 @@ function LoginForm() {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const [state, setLocalStorage] = useLocalStorage('__token__');
+  const [, setLocalStorage] = useLocalStorage('__token__');
   const { handleField, fields } = useForm();
   const [isdisabled, setDisabled] = useState(false);
 

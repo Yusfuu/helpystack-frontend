@@ -56,9 +56,15 @@ function Post({ style }) {
       const url = `${process.env.REACT_APP_API_URL}/p/like`;
       const resposne = await fetch(url, config);
       const result = await resposne.json();
-      message.success({ content: 'awesome 👏', key: 'updatable', duration: 2 });
-      setlike(+(like) + 1);
-      setcountClap(countClap + 1)
+
+      if (result !== null) {
+        message.success({ content: 'awesome 👏', key: 'updatable', duration: 2 });
+        setlike(+(like) + 1);
+        setcountClap(countClap + 1)
+      } else {
+        message.error('something went wrong akkwrd !');
+      }
+
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, message } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import useLocalStorage from './hooks/useLocalStorage';
@@ -24,7 +24,8 @@ const deleteButton = {
   borderRadius: '50px',
   fontWeight: '600',
   backgroundColor: 'rgb(254,226,226)',
-  color: 'rgb(153,27,27)'
+  color: 'rgb(153,27,27)',
+  cursor: 'pointer'
 }
 
 const columns = [
@@ -73,7 +74,7 @@ const columns = [
     key: 'action',
     render: (text, record) => (
       <Space size="middle">
-        <a style={deleteButton} onClick={() => handleDelete(record.post_id)}>Delete</a>
+        <span style={deleteButton} onClick={() => handleDelete(record.post_id)}>Delete</span>
       </Space>
     ),
   },
@@ -90,7 +91,12 @@ const handleDelete = async (post_id) => {
 
   const response = await fetch("http://localhost:8000/api/p/delete", requestOptions);
   const result = await response.json();
-  window.location.reload();
+
+  if (result !== null) {
+    window.location.reload();
+  } else {
+    message.error('something went wrong akkwrd !');
+  }
 }
 
 
@@ -115,6 +121,7 @@ function MySnippets() {
       setPosts(result.map((e, key) => ({ ...e, key, tags: e.tags.split(','), created_at: moment(e.created_at).fromNow() })));
     }
     _fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

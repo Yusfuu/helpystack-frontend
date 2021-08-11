@@ -2,7 +2,7 @@ import { Button, Result } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function _404() {
+function NotFound() {
   return (
     <div>
       <Result
@@ -15,4 +15,4 @@ function _404() {
   )
 }
 
-export default _404;
+export default NotFound;

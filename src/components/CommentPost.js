@@ -38,6 +38,7 @@ function CommentPost() {
       setPage(1);
     }
     _fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feed.postID]);
 
   const handleResponsed = async () => {
@@ -121,7 +122,7 @@ function CommentPost() {
           comments.map((comment, idx) => (
             <Comment
               key={idx}
-              author={<a>{comment?.fullName} {comment?.me && <Isme />}</a>}
+              author={<span>{comment?.fullName} {comment?.me && <Isme />}</span>}
               avatar={
                 <Avatar src={comment?.avatar && `http://localhost:8000/resources/avatars/${comment.avatar}`}>{comment?.fullName[0]}</Avatar>
               }

@@ -9,23 +9,22 @@ import Editor from './Editor';
 import Feed from './Feed';
 import Setting from './Setting';
 import { LoadingOutlined } from "@ant-design/icons";
-import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import useLocalStorage from './hooks/useLocalStorage';
-import useFetch from './hooks/useFetch';
 import LinkPost from './LinkPost';
 import TagPost from './TagPost';
 import TopPost from './TopPost';
-import _404 from './_404';
+import NotFound from './NotFound';
 import MySnippets from './MySnippets';
-import { Button, message, Result, Spin } from 'antd';
-import _500 from './_500';
+import { Button, Result, Spin } from 'antd';
+import ServerError from './ServerError';
 import { Offline } from "react-detect-offline";
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const progress = useSelector(selectLoading);
-  const [token, setLocalStorage] = useLocalStorage('__token__');
+  const [token] = useLocalStorage('__token__');
   const [loading, setloading] = useState(true);
   const [someError, setsomeError] = useState(false);
 
@@ -33,6 +32,7 @@ function App() {
   useEffect(() => {
     if (!token) dispatch(logout());
     async function _fetch() {
+      dispatch(setProgress(10));
       try {
         const formdata = new FormData();
         formdata.append("Authorization", `Bearer ${token}`);
@@ -49,7 +49,10 @@ function App() {
       }
     }
     _fetch();
+    dispatch(setProgress(100));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
 
   return (
 
@@ -72,7 +75,7 @@ function App() {
       <div className="App">
         <LoadingBar color='#84cc16' height={2.8} progress={progress} onLoaderFinished={() => dispatch(progressFinished)} />
         {loading && <Spin style={{ height: '100vh', display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }} tip="Loading... 🐱‍🏍" indicator={<LoadingOutlined style={{ fontSize: 46 }} spin />} />}
-        {someError && <_500 />}
+        {someError && <ServerError />}
         {!loading && <BrowserRouter>
           {!user ? (<Login />) :
             (<div className="app__body">
@@ -87,7 +90,7 @@ function App() {
                 <Route path="/p/tag/:tag" exact component={TagPost} />
                 <Route path="/p/top/snippets" exact component={TopPost} />
                 <Route path="/me/snippets" exact component={MySnippets} />
-                <Route path='*' exact={true} component={_404} />
+                <Route path='*' exact={true} component={NotFound} />
               </Switch>
             </div>
             )}

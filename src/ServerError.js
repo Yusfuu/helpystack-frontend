@@ -1,7 +1,7 @@
 import { Button, Result } from 'antd'
 import React from 'react';
 
-function _500() {
+function ServerError() {
   return (
     <Result
       status="500"
@@ -12,4 +12,4 @@ function _500() {
   )
 }
 
-export default _500;
+export default ServerError;

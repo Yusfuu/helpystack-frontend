@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { ReactComponent as ExportIcon } from "./icons/export.svg";
 import { ReactComponent as PlusIcon } from "./icons/publish.svg";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -73,9 +73,14 @@ function Editor() {
 
       const response = await fetch(url, config);
       const result = await response.json();
-      message.success({ content: 'Your Snippet is published !', key: 'updatable', duration: 2 });
-      setvisible(false);
-      setdescription('');
+      if (result !== null) {
+        message.success({ content: 'Your Snippet is published !', key: 'updatable', duration: 2 });
+        setvisible(false);
+        setdescription('');
+      } else {
+        message.error('something went wrong akkwrd !');
+      }
+
     }
 
   }
