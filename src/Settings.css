@@ -459,7 +459,16 @@ textarea::placeholder {
   padding: 20px;
 }
 
+.avatar__settings > div > img {
+  width: 4rem !important;
+  height: 4rem !important;
+}
 .avatar__settings > div > .avatar-root {
-  width: 3rem !important;
-  height: 3rem !important;
+  width: 4rem !important;
+  height: 4rem !important;
+}
+
+button:disabled,
+button[disabled] {
+  opacity: 0.8;
 }

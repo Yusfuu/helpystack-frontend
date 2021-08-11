@@ -20,6 +20,7 @@ import { setCommentVisible, setPostID } from './features/feed/feedSlice';
 import ShareButton from './components/ShareButton';
 import _404 from './_404';
 import Isme from './components/Isme';
+import useLocalStorage from './hooks/useLocalStorage';
 
 function LinkPost() {
   const { id } = useParams();
@@ -31,6 +32,8 @@ function LinkPost() {
   const [loading, setloading] = useState(true)
   const history = useHistory();
   const dispatch = useDispatch();
+  const [__token__] = useLocalStorage('__token__');
+
 
   useEffect(() => {
     dispatch(setPostID(post?.post_id));
@@ -67,6 +70,8 @@ function LinkPost() {
       message.loading({ content: 'Loading...', key: 'updatable' });
       const formdata = new FormData();
       formdata.append("post_id", post.post_id);
+      formdata.append('Authorization', __token__);
+
 
       const config = {
         method: 'POST',
@@ -127,7 +132,7 @@ function LinkPost() {
           <div className="link__post__heading">
             <Card style={{ width: 750, marginTop: 16, border: 'none' }}>
               <Meta
-                avatar={<Avatar src={''}>{user.fullName[0]}</Avatar>}
+                avatar={<Avatar src={user?.avatar && `http://localhost:8000/resources/avatars/${user.avatar}`}>{user.fullName[0]}</Avatar>}
                 title={
                   <>
                     <span>{post.fullName} {+user.id === +post.uid && <Isme />}</span>
@@ -142,7 +147,7 @@ function LinkPost() {
             </Dropdown>
           </div>
           <div className="link__post">
-            <div style={{ margin: '24px' }} className="link__post__highlite" style={{ background: post?.background, border: '1px solid #f0f0f0' }}>
+            <div style={{ margin: '24px' }} className="link__post__highlite" style={{ background: post?.background, border: post?.background === '#fff' && '1px solid #f0f0f0' }}>
               <div className="app-header-frame">
                 <div className="frame-controls">
                   <div></div>

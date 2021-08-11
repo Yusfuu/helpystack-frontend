@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/user/userSlice';
@@ -13,8 +13,11 @@ function RegisterForm() {
   const dispatch = useDispatch();
   const { handleField, fields } = useForm();
   const [state, setLocalStorage] = useLocalStorage('__token__');
+  const [isdisabled, setDisabled] = useState(false);
+
   const submitHandle = async e => {
     e.preventDefault();
+    setDisabled(true);
     const { email, password, fullName } = fields;
     if (!fullName || fullName.trim().length === 0) {
       return message.error('the email address is invalid');
@@ -37,13 +40,19 @@ function RegisterForm() {
     };
 
     const response = await fetch("http://localhost:8000/api/accounts/signup", requestOptions);
-    const { __token__, id } = await response.json();
-    if (__token__) {
-      setLocalStorage(__token__);
-      dispatch(login({ email, fullName, id, __token__ }));
-      history.push("/");
+    const result = await response.json();
+    setDisabled(false);
+    if (result?.message) {
+      message.error(result.message);
     } else {
-      message.error('something went wrong akkwrd !');
+      const { __token__, ...others } = result;
+      if (__token__) {
+        setLocalStorage(__token__);
+        dispatch(login({ ...others, __token__ }));
+        history.push('/')
+      } else {
+        message.error('something went wrong akkwrd !');
+      }
     }
   }
 
@@ -98,7 +107,7 @@ function RegisterForm() {
           </div>
 
           <div>
-            <button type="submit"
+            <button disabled={isdisabled} type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Create an account
             </button>

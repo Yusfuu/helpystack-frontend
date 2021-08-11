@@ -9,7 +9,7 @@ function Avatar({ setOpen, open }) {
   return (
     <div onClick={open !== undefined ? () => setOpen(!open) : null}>
       {user?.avatar ?
-        <img id="profile" className="h-8 w-8 rounded-full" src={user?.avatar} alt="avatar" />
+        <img style={{ objectFit: 'cover' }} id="profile" className="h-8 w-8 rounded-full" src={`http://localhost:8000/resources/avatars/${user?.avatar}`} alt="avatar" />
         :
         <div className="avatar-root colorDefault">
           {user?.fullName[0]}

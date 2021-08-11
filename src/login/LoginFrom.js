@@ -1,17 +1,58 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { message } from 'antd';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { login } from '../features/user/userSlice';
 import useForm from '../hooks/useForm';
+import useLocalStorage from '../hooks/useLocalStorage';
 import ReactLogo from "../images/logo512.png";
 
 
 
 function LoginForm() {
 
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [state, setLocalStorage] = useLocalStorage('__token__');
   const { handleField, fields } = useForm();
+  const [isdisabled, setDisabled] = useState(false);
 
-  const submitHandle = e => {
+  const submitHandle = async e => {
     e.preventDefault();
-    console.log(fields);
+    setDisabled(true);
+    const { email, password } = fields;
+
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      return message.error('the email address is invalid');
+    }
+    if (!password || password.length === 0) {
+      return message.error('Password Required');
+    }
+
+    const formdata = new FormData();
+    formdata.append("email", email);
+    formdata.append("password", password);
+
+    const requestOptions = {
+      method: 'POST',
+      body: formdata,
+    };
+    const response = await fetch("http://localhost:8000/api/accounts/signin", requestOptions);
+    const result = await response.json();
+    setDisabled(false);
+    if (result?.message) {
+      message.error(result.message);
+    } else {
+      const { __token__, ...others } = result;
+      if (__token__) {
+        setLocalStorage(__token__);
+        dispatch(login({ ...others, __token__ }));
+        history.push('/')
+      } else {
+        message.error('something went wrong akkwrd !');
+      }
+    }
+
   }
 
 
@@ -61,7 +102,7 @@ function LoginForm() {
           </div>
 
           <div>
-            <button type="submit"
+            <button disabled={isdisabled} type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign in
             </button>

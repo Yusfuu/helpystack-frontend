@@ -67,6 +67,7 @@ function CommentPost() {
       const result = await _response.json();
       result.fullName = user.fullName;
       result.me = true;
+      result.avatar = user.avatar;
       setcomments([result, ...comments]);
       setResponse('');
       message.success({ content: 'Commented 🐱‍👤', key: 'updatable', duration: 2 });
@@ -105,7 +106,7 @@ function CommentPost() {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <Avatar src={''}>{user.fullName[0]}</Avatar>
+            <Avatar src={user?.avatar && `http://localhost:8000/resources/avatars/${user.avatar}`}>{user.fullName[0]}</Avatar>
             <span style={{
               color: 'rgb(41 41 41)', fontWeight: 500,
             }}>{user.fullName}</span>
@@ -122,7 +123,7 @@ function CommentPost() {
               key={idx}
               author={<a>{comment?.fullName} {comment?.me && <Isme />}</a>}
               avatar={
-                <Avatar src={''}>{comment?.fullName[0]}</Avatar>
+                <Avatar src={comment?.avatar && `http://localhost:8000/resources/avatars/${comment.avatar}`}>{comment?.fullName[0]}</Avatar>
               }
               content={comment?.body}
               datetime={moment(comment?.created_at).fromNow()}

@@ -3,18 +3,18 @@ import './Header.css';
 import Avatar from './Avatar';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as Notification } from './icons/notify.svg'
-import { useDispatch } from 'react-redux';
-import { logout } from './features/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from './features/user/userSlice';
+import { Dropdown, Menu } from 'antd';
 
 function Header() {
-  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = useSelector(selectUser);
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem('__token__');
-    history.replace('/');
+    history.push('/');
   }
 
   return (
@@ -62,22 +62,61 @@ function Header() {
                 <button type="button"
                   className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                   id="user-menu-button" >
-                  <Avatar setOpen={setOpen} open={open} />
+                  {/* <Avatar setOpen={setOpen} open={open} /> */}
                 </button>
               </div>
 
-              {open && (<div id="menu" className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Settings</span>
+              {/* {open && (<div id="menu" className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Settings</Link>
                 <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Profile</span>
                 <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Editor</span>
                 <span onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Sign out</span>
-              </div>)}
+              </div>)} */}
+
+
+              {/* {(<div id="menu" className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item"></Link>
+                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Profile</span>
+                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item">Editor</span>
+                <span className="block px-4 py-2 text-sm text-gray-700" id="user-menu-item"></span>
+              </div>)} */}
+
+              <Dropdown arrow overlay={
+                <Menu>
+                  <Menu.Item key="99">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      <Avatar />
+                      <span style={{ fontWeight: '500' }}>{user?.fullName}</span>
+                    </div>
+                  </Menu.Item>
+                  <Menu.Divider />
+
+                  <Menu.Item key="0">
+                    <Link to="/settings">Settings</Link>
+                  </Menu.Item>
+                  <Menu.Item key="1">
+                    <Link to="/editor">Editor</Link>
+                  </Menu.Item>
+                  <Menu.Item key="2">
+                    <Link to="/profile">Profile</Link>
+                  </Menu.Item>
+                  <Menu.Item key="3">
+                    <Link to="/me/snippets">Stories</Link>
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item key="4" onClick={handleLogout}>Sign out</Menu.Item>
+                </Menu>
+              } trigger={['click']}>
+                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                  <Avatar />
+                </a>
+              </Dropdown>
 
             </div>
           </div>
         </div>
       </div>
-    </nav>
+    </nav >
   )
 }
 

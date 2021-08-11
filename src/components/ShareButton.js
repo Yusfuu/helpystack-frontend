@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Menu, message, Tag } from 'antd';
+import { Dropdown, Menu, message } from 'antd';
 import { ReactComponent as ShareIcon } from "../icons/share.svg";
 import { ReactComponent as TwitterIcon } from "../icons/twitter.svg";
 import { ReactComponent as FacebookIcon } from "../icons/facebook.svg";

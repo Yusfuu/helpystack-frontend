@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Post.scss';
-import { Card, Avatar, message, Dropdown } from 'antd';
+import { Card, Avatar, message } from 'antd';
 import { colors } from './data';
 import { ReactComponent as CopyIcon } from "./icons/copy.svg";
 import { ReactComponent as ClapIcon } from "./icons/clap.svg";
@@ -22,7 +22,7 @@ function Post({ style }) {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { post_id, uid, name, code, color, lang, background, description, fullName, tags, created_at, likeCount, url, commentCount } = style;
+  const { post_id, uid, name, code, color, lang, background, description, fullName, tags, created_at, likeCount, url, commentCount, avatar } = style;
   const [like, setlike] = useState(likeCount)
   const [countClap, setcountClap] = useState(0);
   const user = useSelector(selectUser);
@@ -103,7 +103,7 @@ function Post({ style }) {
         ]}
       >
         <Meta
-          avatar={<Avatar src={''} style={{ background: background == '#fff' ? '#ccc' : background }}>{fullName[0]}</Avatar>}
+          avatar={<Avatar src={avatar && `http://localhost:8000/resources/avatars/${avatar}`} style={{ background: background === '#fff' ? '#ccc' : background }}>{fullName[0]}</Avatar>}
           title={
             <>
               <span>{fullName}  {+uid === +user.id && <Isme />}</span>

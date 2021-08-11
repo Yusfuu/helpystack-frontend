@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import "./TagCollection.scss";
 import { Tag } from 'antd';
 import { tagsOptions } from "../data";
@@ -19,7 +19,6 @@ const randomeColrs = [
   "magenta"
 ]
 export default function TagCollection() {
-  const history = useHistory();
   return (
     <div>
       <h1>Featured Collections</h1>
