@@ -14,6 +14,7 @@ import moment from 'moment';
 import ShareButton from './components/ShareButton';
 import useLocalStorage from './hooks/useLocalStorage';
 import Isme from './components/Isme';
+import { setUserID, setVisible } from './features/user/profileSlice';
 
 const { Meta } = Card;
 
@@ -66,6 +67,11 @@ function Post({ style }) {
     dispatch(setPostID(post_id));
   }
 
+  const showProfileUser = () => {
+    dispatch(setVisible(true));
+    dispatch(setUserID(uid));
+  }
+
   return (
     <>
       <Card style={{ width: 700, marginTop: 16 }}
@@ -103,7 +109,7 @@ function Post({ style }) {
         ]}
       >
         <Meta
-          avatar={<Avatar src={avatar && `http://localhost:8000/resources/avatars/${avatar}`} style={{ background: background === '#fff' ? '#ccc' : background }}>{fullName[0]}</Avatar>}
+          avatar={<Avatar onClick={showProfileUser} src={avatar && `http://localhost:8000/resources/avatars/${avatar}`} style={{ background: background === '#fff' ? '#ccc' : background, cursor: 'pointer' }}>{fullName[0]}</Avatar>}
           title={
             <>
               <span>{fullName}  {+uid === +user.id && <Isme />}</span>

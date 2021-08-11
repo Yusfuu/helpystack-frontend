@@ -18,8 +18,9 @@ function Setting() {
   const [avatar, setavatar] = useState(false);
   const dispatch = useDispatch();
   const [fileDisabled, setfileDisabled] = useState(true);
-  const [bio, setBio] = useState(user.bio);
+  const [bio, setBio] = useState(user.bio || '');
   const [fullName, setFullName] = useState(user.fullName);
+  const [twitter, setTwitter] = useState(user.twitter || '');
   const ref = useRef();
 
 
@@ -72,7 +73,7 @@ function Setting() {
       const formdata = new FormData();
       formdata.append('Authorization', __token__);
 
-      var requestOptions = {
+      const requestOptions = {
         method: 'POST',
         body: formdata
       };
@@ -90,6 +91,7 @@ function Setting() {
     const formdata = new FormData();
     formdata.append('fullName', fullName);
     formdata.append('bio', bio);
+    formdata.append('twitter', twitter);
     formdata.append('Authorization', __token__);
 
     var requestOptions = {
@@ -194,7 +196,7 @@ function Setting() {
                     </div>
                   </div>
                   <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button onClick={handleUpdate} disabled={fullName.length <= 0} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button onClick={handleUpdate} disabled={fullName.length <= 0 || user.fullName === fullName} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Save
                     </button>
                   </div>
@@ -226,12 +228,12 @@ function Setting() {
                         Add your bio
                       </label>
                       <div className="mt-1">
-                        <TextArea onChange={e => setBio(e.target.value)} rows={4} showCount maxLength={100} value={user.bio} />
+                        <TextArea onChange={e => setBio(e.target.value)} rows={4} showCount maxLength={100} defaultValue={user.bio} />
                       </div>
                     </div>
                   </div>
                   <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button onClick={handleUpdate} disabled={bio.length <= 0} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button onClick={handleUpdate} disabled={bio.length == 0 || user.bio === bio} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Save
                     </button>
                   </div>
@@ -240,6 +242,47 @@ function Setting() {
             </div>
           </div>
         </div>
+
+
+
+        <Divider />
+
+        <div className="mt-10 sm:mt-0">
+          <div className="md:grid md:grid-cols-3 md:gap-6">
+            <div className="md:col-span-1">
+              <div className="px-4 sm:px-0">
+                <h3 className="text-lg font-medium leading-6 text-gray-900">Twitter</h3>
+                <p className="mt-1 text-sm text-gray-600">
+                  Show link to your Twitter account on your profile page
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 md:mt-0 md:col-span-2">
+              <div>
+                <div className="shadow overflow-hidden sm:rounded-md">
+                  <div className="px-4 py-5 bg-white sm:p-6">
+
+                    <div>
+                      <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                        Your profile will include a link to your Twitter account
+                      </label>
+                      <div className="mt-1">
+                        <input onChange={e => setTwitter(e.target.value)} defaultValue={user.twitter} type="text" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <button onClick={handleUpdate} disabled={twitter.length == 0 || user.twitter === twitter} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <Divider />
 
         <div className="mt-10 sm:mt-0">

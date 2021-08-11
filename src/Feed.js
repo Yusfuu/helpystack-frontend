@@ -8,6 +8,7 @@ import useIO from './hooks/useIO';
 import { useDispatch } from 'react-redux';
 import { setCommentVisible } from './features/feed/feedSlice';
 import TagCollection from './components/TagCollection';
+import UserProfile from './components/UserProfile';
 
 function Feed({ urlToFetch }) {
   const [page, setPage] = useState(1);
@@ -52,6 +53,7 @@ function Feed({ urlToFetch }) {
           </Card>
         </div>}
         <CommentPost />
+        <UserProfile />
       </div>
 
       <div className="feed__news" style={{

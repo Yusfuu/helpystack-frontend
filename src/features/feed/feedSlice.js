@@ -1,28 +1,3 @@
-// import { createSlice } from '@reduxjs/toolkit';
-
-// const initialState = {
-//   postID: null
-// };
-
-// export const feedSlice = createSlice({
-//   name: 'feed',
-//   initialState,
-//   reducers: {
-//     setCommentVisible: (state, action) => {
-//       state.feed = action.payload;
-//     },
-//     setPostID: (state, action) => {
-//       state.feed = action.payload;
-//     },
-//   },
-// });
-
-// export const { setCommentVisible, setPostID } = feedSlice.actions;
-
-// export const selectFeed = (state) => state.feed;
-
-// export default feedSlice.reducer;
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {

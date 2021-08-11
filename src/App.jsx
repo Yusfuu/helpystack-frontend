@@ -9,7 +9,6 @@ import Editor from './Editor';
 import Feed from './Feed';
 import Setting from './Setting';
 import { LoadingOutlined } from "@ant-design/icons";
-
 import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
 import useLocalStorage from './hooks/useLocalStorage';
 import useFetch from './hooks/useFetch';
@@ -18,8 +17,9 @@ import TagPost from './TagPost';
 import TopPost from './TopPost';
 import _404 from './_404';
 import MySnippets from './MySnippets';
-import { Spin } from 'antd';
+import { Button, message, Result, Spin } from 'antd';
 import _500 from './_500';
+import { Offline } from "react-detect-offline";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ function App() {
   const [token, setLocalStorage] = useLocalStorage('__token__');
   const [loading, setloading] = useState(true);
   const [someError, setsomeError] = useState(false);
+
 
   useEffect(() => {
     if (!token) dispatch(logout());
@@ -51,30 +52,48 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <LoadingBar color='#84cc16' height={2.8} progress={progress} onLoaderFinished={() => dispatch(progressFinished)} />
-      {loading && <Spin style={{ height: '100vh', display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }} tip="Loading... 🐱‍🏍" indicator={<LoadingOutlined style={{ fontSize: 46 }} spin />} />}
-      {someError && <_500 />}
-      {!loading && <BrowserRouter>
-        {!user ? (<Login />) :
-          (<div className="app__body">
-            <Header />
-            <Switch>
-              <Route path="/" exact>
-                <Feed urlToFetch={null} />
-              </Route>
-              <Route path="/editor" exact component={Editor} />
-              <Route path="/settings" exact component={Setting} />
-              <Route path="/p/:id" exact component={LinkPost} />
-              <Route path="/p/tag/:tag" exact component={TagPost} />
-              <Route path="/p/top/snippets" exact component={TopPost} />
-              <Route path="/me/snippets" exact component={MySnippets} />
-              <Route path='*' exact={true} component={_404} />
-            </Switch>
-          </div>
-          )}
-      </BrowserRouter>}
-    </div>
+
+    <>
+      <Offline>
+        <div style={{
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <Result
+            status="warning"
+            title="Please check your internet connection."
+            extra={<Button onClick={() => window.location.reload()} type="primary">Try Again</Button>}
+          />
+        </div>
+      </Offline>
+
+      <div className="App">
+        <LoadingBar color='#84cc16' height={2.8} progress={progress} onLoaderFinished={() => dispatch(progressFinished)} />
+        {loading && <Spin style={{ height: '100vh', display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }} tip="Loading... 🐱‍🏍" indicator={<LoadingOutlined style={{ fontSize: 46 }} spin />} />}
+        {someError && <_500 />}
+        {!loading && <BrowserRouter>
+          {!user ? (<Login />) :
+            (<div className="app__body">
+              <Header />
+              <Switch>
+                <Route path="/" exact>
+                  <Feed urlToFetch={null} />
+                </Route>
+                <Route path="/editor" exact component={Editor} />
+                <Route path="/settings" exact component={Setting} />
+                <Route path="/p/:id" exact component={LinkPost} />
+                <Route path="/p/tag/:tag" exact component={TagPost} />
+                <Route path="/p/top/snippets" exact component={TopPost} />
+                <Route path="/me/snippets" exact component={MySnippets} />
+                <Route path='*' exact={true} component={_404} />
+              </Switch>
+            </div>
+            )}
+        </BrowserRouter>}
+      </div>
+    </>
   );
 }
 
