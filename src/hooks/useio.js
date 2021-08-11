@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-const useIO = () => {
+const useIo = () => {
   const [entry, updateEntry] = useState({});
   const [node, setNode] = useState(null);
 
@@ -20,4 +20,4 @@ const useIO = () => {
   return [setNode, entry.isIntersecting];
 }
 
-export default useIO;
+export default useIo;

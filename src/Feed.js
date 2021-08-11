@@ -4,7 +4,7 @@ import Post from './Post';
 import { BackTop, Card, message, Skeleton } from 'antd';
 import CommentPost from './components/CommentPost';
 import { ReactComponent as UP } from "./icons/arrowUp.svg";
-import useIO from './hooks/useIO';
+import useIo from './hooks/useIo';
 import { useDispatch } from 'react-redux';
 import { setCommentVisible } from './features/feed/feedSlice';
 import TagCollection from './components/TagCollection';
@@ -12,7 +12,7 @@ import UserProfile from './components/UserProfile';
 
 function Feed({ urlToFetch }) {
   const [page, setPage] = useState(1);
-  const [ref, onScreen] = useIO();
+  const [ref, onScreen] = useIo();
   const [posts, setPosts] = useState([]);
   const [skeleton, setSkeleton] = useState(false);
   const dispatch = useDispatch();
