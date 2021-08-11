@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-const useIo = () => {
+const useIntersectionObserver = () => {
   const [entry, updateEntry] = useState({});
   const [node, setNode] = useState(null);
 
@@ -20,4 +20,4 @@ const useIo = () => {
   return [setNode, entry.isIntersecting];
 }
 
-export default useIo;
+export default useIntersectionObserver;
