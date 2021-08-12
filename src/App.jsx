@@ -82,9 +82,7 @@ function App() {
             (<div className="app__body">
               <Header />
               <Switch>
-                <Route path="/" exact>
-                  <Feed urlToFetch={null} />
-                </Route>
+                <Route path="/" exact component={Feed} />
                 <Route path="/editor" exact component={Editor} />
                 <Route path="/settings" exact component={Setting} />
                 <Route path="/p/:id" exact component={LinkPost} />

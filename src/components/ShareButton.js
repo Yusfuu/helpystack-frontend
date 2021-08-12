@@ -22,7 +22,7 @@ const menuStyle = {
 }
 function ShareButton({ url = null, description, tags }) {
 
-  const URL = url === null ? window.location.href : `http://localhost:3000/p/${url}`;
+  const URL = url === null ? window.location.href : `${window.location.origin}/p/${url}`;
   const TAGS = ('helpystack,' + tags).split(',');
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(URL);

@@ -14,6 +14,10 @@ function Profile() {
       <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} className="p-10 bg-surface-secondary">
         <div className="mb-8 text-center">
           <h3 className="mb-2">{user.bio}</h3>
+
+          {user.bio && <h3 className="mb-2">{user.bio}</h3>}
+          {!user.bio && <Link to="/settings"><h3 className="mb-2">Add Bio</h3></Link>}
+
           {user.twitter &&
             <a href={user?.twitter} target="_blank" rel="noreferrer">
               <TwitterIcon style={{ margin: 'auto' }} />

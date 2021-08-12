@@ -17,7 +17,7 @@ function Feed({ urlToFetch }) {
   const [skeleton, setSkeleton] = useState(false);
   const dispatch = useDispatch();
   dispatch(setCommentVisible(false));
-  const URL = urlToFetch === null ? `${process.env.REACT_APP_API_URL}/p/page/${page}` : `${urlToFetch}/${page}`;
+  const URL = !urlToFetch ? `${process.env.REACT_APP_API_URL}/p/page/${page}` : `${urlToFetch}/${page}`;
   useEffect(() => {
     async function _fetch() {
       if (onScreen) {
