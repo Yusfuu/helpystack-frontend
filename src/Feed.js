@@ -31,7 +31,7 @@ function Feed({ urlToFetch }) {
           setPosts(c => [...c, ...data]);
           setPage(prev => prev + 1);
         } catch (error) {
-          message.error({ content: 'something went wrong akkwrd !', duration: 0 });
+          message.error({ content: 'something went wrong akkwrd !', duration: 10, key: 'updatable' });
         }
       }
     }

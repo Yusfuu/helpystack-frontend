@@ -298,9 +298,19 @@ img {
 
 .logo {
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.logo svg {
+  fill: #fff;
+}
+.logo span {
   color: #fff;
-  font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "IBM Plex Sans";
+  font-weight: 700;
 }
 
 #menu {

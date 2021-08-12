@@ -3,6 +3,7 @@ import './Header.css';
 import Avatar from './Avatar';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as Notification } from './icons/notify.svg'
+import { ReactComponent as Thunder } from './icons/thunder.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectUser } from './features/user/userSlice';
 import { Dropdown, Menu } from 'antd';
@@ -37,9 +38,10 @@ function Header() {
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start banner-header">
             <div className="flex-shrink-0 flex items-center">
-              <div className="logo">
-                <Link to="/">HelpyStack</Link>
-              </div>
+              <Link className="logo" to="/">
+                <Thunder />
+                <span>HelpyStack</span>
+              </Link>
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">

@@ -46,6 +46,7 @@ function App() {
         }
         setloading(false);
       } catch (error) {
+        setloading(false);
         setsomeError(true);
       }
     }

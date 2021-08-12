@@ -4,11 +4,11 @@ import './Profile.scss';
 import { selectUser } from './features/user/userSlice';
 import { ReactComponent as TwitterIcon } from "./icons/twitter.svg";
 import { Link } from 'react-router-dom';
+import Avatar from 'antd/lib/avatar/avatar';
 
 function Profile() {
 
   const user = useSelector(selectUser);
-  console.log(user);
   return (
     <>
       <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} className="p-10 bg-surface-secondary">
@@ -31,7 +31,15 @@ function Profile() {
               <div className="card-body">
                 <div className="d-flex justify-content-center">
                   <span className="avatar avatar-xl rounded-circle">
-                    <img style={{ width: '100%', height: '100%', objectFit: 'cover', }} alt="..." src={`http://localhost:8000/resources/avatars/${user?.avatar}`} />
+                    {user.avatar && <img style={{ width: '100%', height: '100%', objectFit: 'cover', }} alt="..." src={`http://localhost:8000/resources/avatars/${user?.avatar}`} />}
+                    {!user.avatar && <Avatar style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      fontSize: '30px',
+                    }}>{user?.fullName[0]}</Avatar>}
                   </span>
                 </div>
                 <div className="text-center my-6">
