@@ -19,6 +19,7 @@ import MySnippets from './MySnippets';
 import { Button, Result, Spin } from 'antd';
 import ServerError from './ServerError';
 import { Offline } from "react-detect-offline";
+import Profile from './Profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ function App() {
                 <Route path="/p/tag/:tag" exact component={TagPost} />
                 <Route path="/p/top/snippets" exact component={TopPost} />
                 <Route path="/me/snippets" exact component={MySnippets} />
+                <Route path="/profile" exact component={Profile} />
                 <Route path='*' exact={true} component={NotFound} />
               </Switch>
             </div>

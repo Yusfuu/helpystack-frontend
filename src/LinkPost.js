@@ -21,6 +21,8 @@ import ShareButton from './components/ShareButton';
 import NotFound from './NotFound';
 import Isme from './components/Isme';
 import useLocalStorage from './hooks/useLocalStorage';
+import { setUserID, setVisible } from './features/user/profileSlice';
+import UserProfile from './components/UserProfile';
 
 function LinkPost() {
   const { id } = useParams();
@@ -111,6 +113,12 @@ function LinkPost() {
       message.error('something went wrong akkwrd !');
     }
   }
+
+  const showProfileUser = () => {
+    dispatch(setVisible(true));
+    dispatch(setUserID(post.uid));
+  }
+
   const menu = (
     <Menu>
       <Menu.Item key='1'>
@@ -144,7 +152,7 @@ function LinkPost() {
           <div className="link__post__heading">
             <Card style={{ width: 750, marginTop: 16, border: 'none' }}>
               <Meta
-                avatar={<Avatar src={user?.avatar && `http://localhost:8000/resources/avatars/${user.avatar}`}>{user.fullName[0]}</Avatar>}
+                avatar={<Avatar style={{ cursor: 'pointer' }} onClick={showProfileUser} src={user?.avatar && `http://localhost:8000/resources/avatars/${user.avatar}`}>{user.fullName[0]}</Avatar>}
                 title={
                   <>
                     <span>{post.fullName} {+user.id === +post.uid && <Isme />}</span>
@@ -200,6 +208,8 @@ function LinkPost() {
 
           </div>
           <CommentPost />
+          <UserProfile />
+
         </div>
       )
       }
