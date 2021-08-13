@@ -51,7 +51,6 @@
     ]
   },
   "devDependencies": {
-    "sass": "^1.37.2",
-    "yarn-upgrade-all": "^0.5.4"
+    "sass": "^1.37.2"
   }
 }
