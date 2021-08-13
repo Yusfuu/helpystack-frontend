@@ -78,7 +78,7 @@ function App() {
         <LoadingBar color='#84cc16' height={2.8} progress={progress} onLoaderFinished={() => dispatch(progressFinished)} />
         {loading && <Spin style={{ height: '100vh', display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }} tip="Loading... 🐱‍🏍" indicator={<LoadingOutlined style={{ fontSize: 46 }} spin />} />}
         {someError && <ServerError />}
-        {!loading && <BrowserRouter>
+        {(!loading && !someError) && <BrowserRouter>
           {!user ? (<Login />) :
             (<div className="app__body">
               <Header />
