@@ -80,7 +80,7 @@ function Post({ style }) {
 
   return (
     <>
-      <Card style={{ width: 700, marginTop: 16 }}
+      <Card style={{ width: 700 }}
         cover={
           <>
             <div className="highlite" style={{ background, border: '1px solid #f0f0f0' }}>
@@ -91,7 +91,7 @@ function Post({ style }) {
                   <div></div>
                 </div>
                 <div className="title">
-                  <input disabled value={name} />
+                  <input style={{ width: '60%' }} disabled value={name} />
                 </div>
               </div>
               <SyntaxHighlighter onClick={() => history.push('/p/' + url)} customStyle={{ cursor: 'pointer' }} id="syntaxHighlighterCode" language={lang.toLocaleLowerCase()} style={colors[color]} wrapLines={true} wrapLongLines={true} showLineNumbers={true}>

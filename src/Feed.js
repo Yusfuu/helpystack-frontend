@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Feed.scss';
 import Post from './Post';
-import { BackTop, Card, message, Skeleton } from 'antd';
+import { BackTop, Card, message, Skeleton, Tag } from 'antd';
 import CommentPost from './components/CommentPost';
 import { ReactComponent as UP } from "./icons/arrowUp.svg";
 import useIntersectionObserver from './hooks/useIntersectionObserver';
@@ -9,7 +9,22 @@ import { useDispatch } from 'react-redux';
 import { setCommentVisible } from './features/feed/feedSlice';
 import TagCollection from './components/TagCollection';
 import UserProfile from './components/UserProfile';
+import { Link } from 'react-router-dom';
+import { tagsOptions } from './data';
 
+const randomeColrs = [
+  "red",
+  "volcano",
+  "orange",
+  "gold",
+  "lime",
+  "green",
+  "cyan",
+  "blue",
+  "geekblue",
+  "purple",
+  "magenta"
+]
 function Feed({ urlToFetch }) {
   const [page, setPage] = useState(1);
   const [ref, onScreen] = useIntersectionObserver();
@@ -40,8 +55,14 @@ function Feed({ urlToFetch }) {
   }, [onScreen]);
 
   return (
-    <div className="feed__app">
+    <div className="feed__app" style={{ marginTop: '26px' }}>
       <div className="feed__sidebar">
+        <h2>Snippet Collections</h2>
+        <div>
+          {tagsOptions.map((e, idx) => (
+            <Link key={idx} to={'/p/tag/' + e.toLocaleLowerCase()}><Tag style={{ margin: '5px' }} color={randomeColrs[~~(Math.random() * randomeColrs.length)]}>{e}</Tag></Link>
+          ))}
+        </div>
       </div>
       <div className="feed__main">
         {posts.map((e) => <Post key={e.url} style={e} />)}
@@ -57,10 +78,7 @@ function Feed({ urlToFetch }) {
         <UserProfile />
       </div>
 
-      <div className="feed__news" style={{
-        marginTop: '40px', display: 'flex',
-        justifyContent: 'center'
-      }}>
+      <div className="feed__news" style={{ display: 'flex', justifyContent: 'center' }}>
         <TagCollection />
       </div>
       <BackTop>

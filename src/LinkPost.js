@@ -175,7 +175,7 @@ function LinkPost() {
                   <div></div>
                 </div>
                 <div className="title">
-                  <input disabled value={post?.name} />
+                  <input style={{ width: '60%' }} disabled value={post?.name} />
                 </div>
               </div>
               <SyntaxHighlighter id="syntaxHighlighterCode" language={post?.lang.toLocaleLowerCase()} style={colors[post?.color]} wrapLines={true} wrapLongLines={true} showLineNumbers={true}>

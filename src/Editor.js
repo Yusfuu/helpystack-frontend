@@ -101,7 +101,7 @@ function Editor() {
                 <div></div>
               </div>
               <div className="title">
-                <input onChange={(e) => setName(e.target.value)} type="text" value={name} />
+                <input style={{ width: '50%' }} onChange={(e) => setName(e.target.value)} type="text" value={name} />
               </div>
             </div>
             <SyntaxHighlighter id="syntaxHighlighterCode" language={lang.toLowerCase()} style={colorTheme} wrapLines={true} wrapLongLines={true} showLineNumbers={true}>

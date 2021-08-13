@@ -52,7 +52,7 @@ function UserProfile() {
             <>
               {user?.twitter && <a href={user?.twitter} target="_blank" rel="noreferrer">
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <TwitterIcon key="twitter" />,
+                  <TwitterIcon key="twitter" />
                 </div>
               </a>}
             </>
