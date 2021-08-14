@@ -74,8 +74,10 @@ function Post({ style }) {
   }
 
   const showProfileUser = () => {
-    dispatch(setVisible(true));
-    dispatch(setUserID(uid));
+    if (+user.id !== +uid) {
+      dispatch(setVisible(true));
+      dispatch(setUserID(uid));
+    }
   }
 
   return (

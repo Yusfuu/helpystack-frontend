@@ -115,8 +115,11 @@ function LinkPost() {
   }
 
   const showProfileUser = () => {
-    dispatch(setVisible(true));
-    dispatch(setUserID(post.uid));
+
+    if (+user.id !== +post.uid) {
+      dispatch(setVisible(true));
+      dispatch(setUserID(post.uid));
+    }
   }
 
   const menu = (
@@ -152,7 +155,7 @@ function LinkPost() {
           <div className="link__post__heading">
             <Card style={{ width: 750, marginTop: 16, border: 'none' }}>
               <Meta
-                avatar={<Avatar style={{ cursor: 'pointer' }} onClick={showProfileUser} src={user?.avatar && `http://localhost:8000/resources/avatars/${user.avatar}`}>{user.fullName[0]}</Avatar>}
+                avatar={<Avatar style={{ cursor: 'pointer' }} onClick={showProfileUser} src={post?.avatar && `http://localhost:8000/resources/avatars/${post.avatar}`}>{post.fullName[0]}</Avatar>}
                 title={
                   <>
                     <span>{post.fullName} {+user.id === +post.uid && <Isme />}</span>
