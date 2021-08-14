@@ -1,4 +1,4 @@
-import { Card, Drawer, message, Rate, Skeleton } from 'antd';
+import { Card, Drawer, message, Skeleton } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
 import moment from 'moment';
