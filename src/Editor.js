@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { ReactComponent as ExportIcon } from "./icons/export.svg";
 import { ReactComponent as PlusIcon } from "./icons/publish.svg";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { coldarkDark, coldarkCold, atomDark, materialDark, materialLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import * as htmlToImage from 'html-to-image';
 import download from "downloadjs";
 import './Editor.scss';
@@ -11,22 +11,12 @@ import { Select, Input, Popover, message } from 'antd';
 import { languages, jsxText, backgroundColorCircle, tagsOptions } from './data';
 import { Drawer, Form, Button, Col, Row } from 'antd';
 import useLocalStorage from './hooks/useLocalStorage';
-
+import { colors } from "./data";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 const EditorContext = createContext();
-
-const colors = {
-  'atom-dark': atomDark,
-  'coldark-cold': coldarkCold,
-  'coldark-dark': coldarkDark,
-  'material-dark': materialDark,
-  'material-light': materialLight
-};
-
-
 
 function Editor() {
   const [code, setCode] = useState(jsxText);
