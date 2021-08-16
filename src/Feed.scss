@@ -27,3 +27,12 @@
     flex: 0.2;
   }
 }
+
+@media (max-width: 1025px) {
+  .feed__news,
+  .feed__sidebar {
+    background-color: red !important;
+    display: none !important;
+    flex: 0 !important;
+  }
+}
