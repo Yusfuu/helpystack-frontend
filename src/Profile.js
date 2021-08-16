@@ -13,7 +13,6 @@ function Profile() {
     <>
       <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} className="p-10 bg-surface-secondary">
         <div className="mb-8 text-center">
-          <h3 className="mb-2">{user.bio}</h3>
           {user.bio && <h3 className="mb-2">{user.bio}</h3>}
           {!user.bio && <Link to="/settings"><h3 className="mb-2">Add Bio</h3></Link>}
 
@@ -51,12 +50,8 @@ function Profile() {
                     <span className="d-block text-sm">Posts</span>
                   </div>
                   <div className="col-4 text-center">
-                    <span className="h4 font-bolder mb-0">350</span>
-                    <span className="d-block text-sm">Following</span>
-                  </div>
-                  <div className="col-4 text-center">
-                    <span className="h4 font-bolder mb-0">1.5K</span>
-                    <span className="d-block text-sm">Followers</span>
+                    <span className="h4 font-bolder mb-0">17</span>
+                    <span className="d-block text-sm">Stars</span>
                   </div>
                 </div>
               </div>
